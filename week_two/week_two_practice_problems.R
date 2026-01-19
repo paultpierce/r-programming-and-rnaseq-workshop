@@ -44,7 +44,7 @@ Cube_It(42)
 
 students <- c("Johnny", "Frank", "Timmy", "Alice", "Susan")
 num_grades <- c(88, 90, 76, 98, 85)
-names(num_grades) <- students 
+names(num_grades) <- students
 num_grades
 
 # Problem: Convert the numeric grades (e.g., 85) to letter grades (e.g., "B")
@@ -54,23 +54,29 @@ num_grades
 # Finally, make a dataframe, "student_grades", with columns made of "letter_grades", "num_grades", and "students"
 # Save "student_grades" as a csv file.
 
-letter_grades <- c()
-for (___ in 1:___(num_grades)) {
+letter_grades <- c("A", "B", "C", "D", "F")
+for (i in 1:length(num_grades)) {
   
   # Get the current grade in the loop
-  grade <- ____[___]
+  grade <- num_grades[i]
   
   # Convert grade from numeric to letter
   if (grade >= 90) {
-    letter_grades[___] <- "A"
-  } else if (___) {
-    ___
-  } ___ ... # Complete the rest of this code
-  
+    letter_grades[i] <- "A"
+  } else if (grade >= 80) {
+      letter_grades[i] <- "B"
+  } else if (grade >= 70) {
+      letter_grades[i] <- "C"
+  } else if (grade >= 60) {
+      letter_grades[i] <- "D"
+  } else {
+      letter_grades[i] <- "F"
+  }
+
 }
 
-student_grades <- ___(_______) # Compile into data.frame
-write.___(___) # Save student_grades as a csv file
+student_grades <- data.frame(letter_grades, num_grades, students) # Compile into data.frame
+write.csv(student_grades, "week_two/student_grades.csv") # Save student_grades as a csv file
 
 
 ### Challenge Problem ###
