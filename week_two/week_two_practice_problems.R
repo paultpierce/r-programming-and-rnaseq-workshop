@@ -6,13 +6,13 @@ fruit <- c('Apple', 'Orange', 'Passion fruit', 'Banana')
 
 #Correct the following loops and functions to get an print output of each value in the fruit vector
 # prt 1
-for ( i in fruit) 
+for ( i in fruit) {
   print(i)
 }
 
 # prt 2
 for(var in 1:length(fruit)) {
-  print(var)
+  print(fruit[var])
 }
 
 
@@ -20,21 +20,21 @@ for(var in 1:length(fruit)) {
 #skip over the value "Orange"
 
 for(var in 1:length(fruit)) {
-  if (fruit[var] __ __ ){
-    __
+  if (fruit[var] == 'Orange') {
+    next
   }
   print(fruit[var])
 }
 
 # prt 4
 #Complete the following function that take in input X and outputs the cube of X which is equal to Y
-Cube_It <- function(___){
-  ___ <- ___
-  print(paste0("The Cube of ", ___, " is ", ___ ))
+Cube_It <- function(x){
+  y <- x ^ 3
+  print(paste("The Cube of ", x, " is ", y ))
 }
 
 # now use function on the number 42
-____(___)
+Cube_It(42)
 
 
 ### Problem Two ###
