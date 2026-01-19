@@ -125,7 +125,11 @@ gene_id_converter(gene_id = "ENSG00000141510")
 "gene_id_to_symbol.csv" 
 
 # Your code here #
-
+gene_id_converter <- function(gene_id) {
+  id2symbol <- read.csv(file = "week_two/gene_id_to_symbol.csv")
+  result <- id2symbol$gene_symbol[which(id2symbol$Ensembl == gene_id)]
+  return(result)
+}
 # Test -- this should output "BRCA1"
 gene_id_converter(gene_id="ENSG00000012048")
 
@@ -164,7 +168,7 @@ gene_id_converter(gene_id=472, type = "Entrez")
 
 # Your code here #
 
-# Test 1 -- this should output "ENSG00000012048" and "672"
+# Test 1 -- this should output "ENSG00000012048 " and "672"
 gene_id_converter(gene = "BRCA1", type = "gene_symbol")
 
 # Test 2 -- this should output "BRCA1"
