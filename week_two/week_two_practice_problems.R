@@ -102,9 +102,13 @@ id2symbol
 #   2. The function must return the corresponding gene symbol      
 
 # Your code here #
-
+gene_id_converter <- function(gene_id) {
+  gene_symbol <- id2symbol$gene_symbol[id2symbol$Ensembl == gene_id]
+  
+  return(gene_symbol)
+}
 # Test -- this should output "TP53"
-gene_id_converter(gene_id="ENSG00000141510")
+gene_id_converter(gene_id = "ENSG00000141510")
 
 
 
