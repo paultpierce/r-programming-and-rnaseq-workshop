@@ -123,7 +123,7 @@ colnames(my_df) <- c("Col_1", "Col_2", "Col_3")
 my_df
 # Data Frames can be viewed in RStudio
 View(my_df)
-# Data Frames can be accessed by row and column index
+# Data Frames can be accessed by row and column index 
 my_df[1,2]  # Row 1, column 2
 my_df[2,1]  # Row 2, column 1
 my_df[3,]  # Row 3, all columns
