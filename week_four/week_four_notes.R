@@ -8,9 +8,10 @@ install.packages("ggpubr")
 
 # Load the tidyverse package
 library(tidyverse)
+library(readr)
 
 # Grab the titanic data
-tidy_titanic <- read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv")
+tidy_titanic <- read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
 tidy_titanic
 
 # Filter the titanic data for passengers > age 12
@@ -34,6 +35,14 @@ tidy_titanic %>%
   select(Survived, Sex) %>%
   group_by(Sex, Survived) %>%
   summarise(num_sex_survive = n())
+
+# Mutate
+tidy_titanic %>%
+  filter(Age > 12) %>%
+  select(Survived, Sex) %>%
+  group_by(Sex, Survived) %>%
+  summarise(num_sex_survive = n()) %>%
+  mutate(pct_sex_survive = num_sex_survive / sum(num_sex_survive) * 100)
 
 # Or... just use tally
 tidy_titanic %>%
@@ -400,11 +409,4 @@ read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d95
   theme(legend.position = "none") +
   scale_fill_manual(values = c("goldenrod", "skyblue")) +
   ggsave(filename = "my_figure.png", height = 5, width = 11)
-
-
-
-
-
-
-
 
