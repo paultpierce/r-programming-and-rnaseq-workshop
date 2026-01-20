@@ -185,7 +185,7 @@ levels(my_fct)
 ## Complex Data Structure Methods
 
 # Arithmetic
-vec1 <- c(1, 10, 4, 5)
+vec1 <- c(1, 10, 4)
 vec1 + 1  # Adds 1 to every element
 vec2 <- c(10, 2, 3)
 vec1 + vec2  # Pairwise addition
@@ -196,8 +196,8 @@ vec1 * vec2  # Pairwise multiplication
 vec1 <- c(1, 10, 4)
 vec1 > 1  # Element-wise greater-than 
 vec2 <- c(10, 2, 3)
-vec1 > vec2  # Pairwise less than
-vec1 < vec2  # Pairwise greater than
+vec1 > vec2  # Pairwise greater than
+vec1 < vec2  # Pairwise less than
 vec1 == vec2  # Pairwise equivalence
 vec1 != vec2  # Pairwise non equivalence
 vec3 <- c(TRUE, FALSE, TRUE)
@@ -247,7 +247,7 @@ if (i > 5) {
 }
 
 # If...Else statements
-i <- 4
+i <- 6
 if (i > 5) {
   print("i is greater than 5!")
 } else {
@@ -376,16 +376,4 @@ res_mat <- apply(my_mat, MARGIN = 1, function(row) {
   return(sum(row))
 })
 res_mat
-
-
-
-
-
-
-
-
-
-
-
-
 
