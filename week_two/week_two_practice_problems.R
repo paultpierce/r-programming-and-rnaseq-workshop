@@ -148,7 +148,15 @@ entrez_genes_from_collaborator
 # Requirement: Add a new argument, "type", which is used to specify whether the gene ID is "Entrez" or "Ensembl" 
 
 # Your code here #
-
+gene_id_converter <- function(gene_id, type) {
+  id2symbol <- read.csv("week_two/gene_id_to_symbol.csv")
+  if (type == "Entrez") {
+    result <- id2symbol$gene_symbol[which(id2symbol$Entrez == gene_id)]
+  } else if (type == "Ensembl") {
+    result <- id2symbol$gene_symbol[which(id2symbol$Ensembl == gene_id)]
+  }
+  return(result)
+}
 # Test 1 -- this should output "BRCA1"
 gene_id_converter(gene_id="ENSG00000012048", type = "Ensembl")
 
@@ -167,7 +175,19 @@ gene_id_converter(gene_id=472, type = "Entrez")
 # The "type" argument should now accept the option "gene_symbol"
 
 # Your code here #
-
+gene_id_converter <- function(gene, type) {
+  id2symbol <- read.csv("week_two/gene_id_to_symbol.csv")
+  
+  if (type == "Entrez") {
+    result <- id2symbol$gene_symbol[which(id2symbol$Entrez == gene)]
+  } else if (type == "Ensembl") {
+    result <- id2symbol$gene_symbol[which(id2symbol$Ensembl == gene)]
+  } else if (type == "gene_symbol") {
+    result <- id2symbol[which(id2symbol$gene_symbol == gene), c(1, 2)]
+  }
+  
+  return(result)
+}
 # Test 1 -- this should output "ENSG00000012048 " and "672"
 gene_id_converter(gene = "BRCA1", type = "gene_symbol")
 
@@ -185,7 +205,28 @@ gene_id_converter(gene=472, type = "Entrez")
 # Problem: extend the gene_id_converter function that it only needs one argument: "gene"
 
 # Your code here #
-
+gene_id_converter <- function(gene) {
+  
+  id2symbol <- read.csv("week_two/gene_id_to_symbol.csv")
+  
+  if (gene %in% id2symbol$Entrez) {
+    type <- "Entrez"
+  } else if (gene %in% id2symbol$Ensembl) {
+    type <- "Ensembl"
+  } else if (gene %in% id2symbol$gene_symbol) {
+    type <- "gene_symbol"
+  }
+  
+  if (type == "Entrez") {
+    result <- id2symbol$gene_symbol[which(id2symbol$Entrez == gene)]
+  } else if (type == "Ensembl") {
+    result <- id2symbol$gene_symbol[which(id2symbol$Ensembl == gene)]
+  } else if (type == "gene_symbol") {
+    result <- id2symbol[which(id2symbol$gene_symbol == gene), c(1, 2)]
+  }
+  
+  return(result)
+}
 # Test 1 -- this should output "CDKN2A"
 gene_id_converter(gene = "ENSG00000147889")
 
@@ -206,7 +247,39 @@ gene_id_converter(gene = "CDKN2A")
 # Requirement: the function must return results as a list with the names as the original "genes"
 
 # Your code here #
-
+gene_id_converter <- function(genes) {
+  
+  id2symbol <- read.csv("week_two/gene_id_to_symbol.csv")
+  
+  result_list <- list()
+  
+  for (i in 1:length(genes)) {
+    
+    gene <- genes[i]
+  
+    if (gene %in% id2symbol$Entrez) {
+        type <- "Entrez"
+    } else if (gene %in% id2symbol$Ensembl) {
+        type <- "Ensembl"
+    } else if (gene %in% id2symbol$gene_symbol) {
+        type <- "gene_symbol"
+    }
+  
+    if (type == "Entrez") {
+        result <- id2symbol$gene_symbol[which(id2symbol$Entrez == gene)]
+    } else if (type == "Ensembl") {
+        result <- id2symbol$gene_symbol[which(id2symbol$Ensembl == gene)]
+    } else if (type == "gene_symbol") {
+        result <- id2symbol[which(id2symbol$gene_symbol == gene), c(1, 2)]
+    }
+  
+    result_list[[i]] <- result
+  }
+  
+  names(result_list) <- genes
+  
+  return(result_list)
+}
 # Test -- this should output a list:
 #
 # $ENSG00000147889
@@ -229,7 +302,34 @@ gene_id_converter(genes = c("ENSG00000147889", 8243, "TP53"))
 # Problem: Same thing. But use lapply instead of a for-loop.
 
 # Your code here #
-
+gene_id_converter <- function(genes) {
+  
+  id2symbol <- read.csv("week_two/gene_id_to_symbol.csv")
+  
+  result_list <- lapply(genes, function(gene) {
+    
+    if (gene %in% id2symbol$Entrez) {
+      type <- "Entrez"
+    } else if (gene %in% id2symbol$Ensembl) {
+      type <- "Ensembl"
+    } else if (gene %in% id2symbol$gene_symbol) {
+      type <- "gene_symbol"
+    }
+    
+    if (type == "Entrez") {
+      result <- id2symbol$gene_symbol[which(id2symbol$Entrez == gene)]
+    } else if (type == "Ensembl") {
+      result <- id2symbol$gene_symbol[which(id2symbol$Ensembl == gene)]
+    } else if (type == "gene_symbol") {
+      result <- id2symbol[which(id2symbol$gene_symbol == gene), c(1, 2)]
+    }
+    
+  })
+  
+  names(result_list) <- genes
+  
+  return(result_list)
+}
 # Test -- this should output a list:
 #
 # $ENSG00000147889
