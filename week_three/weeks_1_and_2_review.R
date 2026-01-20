@@ -149,7 +149,7 @@ my_list[[2]]  # This returns the data
 # Lists can be accessed by name
 my_list[["Elem_3"]]
 # Lists can be accessed by name using $ notation
-my_list$Elem_4
+my_list$Elem_4[3]
 
 
 # Matrices
