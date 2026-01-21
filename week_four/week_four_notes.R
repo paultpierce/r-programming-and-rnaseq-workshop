@@ -124,6 +124,12 @@ mtcars %>%
   group_by(gear) %>%
   summarize(avg_hp_ratio = mean(hp_ratio))
 
+# More efficient way of the above. By incorp. mean calc. into summarize()
+
+mtcars %>% 
+  group_by(gear) %>% 
+  summarise(avg_hp_ratio = mean(hp / wt))
+
 
 ## Getting started with Tidyverse: Readr and Dplyr ##
 
@@ -163,7 +169,7 @@ ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) +
 ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) + 
   geom_bar(stat = "identity") +
   ylab("Percentage Surviving") +
-  labs(title = "Effect of Sex on Survival aboard the Titanic")
+  ggtitle("Effect of Sex on Survival aboard the Titanic")
 
 # Change the theme
 ggplot(data = pct_surv, mapping = aes(x = Sex, y = pct_sex_survive)) + 
@@ -249,24 +255,24 @@ iris %>%
 iris %>%
   group_by(Species) %>%
   summarise(len_ratio = mean(Sepal.Length / Petal.Length)) %>%
-  ggplot(mapping = aes(x = Species, y = len_ratio))
+    ggplot(mapping = aes(x = Species, y = len_ratio))
 
 # Add the barplot geometry
 
 iris %>%
   group_by(Species) %>%
   summarise(len_ratio = mean(Sepal.Length / Petal.Length)) %>%
-  ggplot(mapping = aes(x = Species, y = len_ratio)) +
-  geom_bar(stat = "identity")
+    ggplot(mapping = aes(x = Species, y = len_ratio)) +
+    geom_bar(stat = "identity")
 
 # Set y axis label to "Average of Sepal to Petal length (cm)"
 
 iris %>%
   group_by(Species) %>%
   summarise(len_ratio = mean(Sepal.Length / Petal.Length)) %>%
-  ggplot(mapping = aes(x = Species, y = len_ratio)) +
-  geom_bar(stat = "identity") +
-  ylab("Average of Sepal to Petal length (cm)")
+    ggplot(mapping = aes(x = Species, y = len_ratio)) +
+    geom_bar(stat = "identity") +
+    ylab("Average of Sepal to Petal length (cm)")
 
 # Color the plot by species
 
@@ -274,9 +280,9 @@ iris %>%
 iris %>%
   group_by(Species) %>%
   summarise(len_ratio = mean(Sepal.Length / Petal.Length)) %>%
-  ggplot(mapping = aes(x = Species, y = len_ratio, fill = Species)) +
-  geom_bar(stat = "identity") +
-  ylab("Average of Sepal to Petal length (cm)")
+    ggplot(mapping = aes(x = Species, y = len_ratio, fill = Species)) +
+    geom_bar(stat = "identity") +
+    ylab("Average of Sepal to Petal length (cm)")
 
 
 # Set the title to "Iris flower analysis"
@@ -284,45 +290,45 @@ iris %>%
 iris %>%
   group_by(Species) %>%
   summarise(len_ratio = mean(Sepal.Length / Petal.Length)) %>%
-  ggplot(mapping = aes(x = Species, y = len_ratio, fill = Species)) +
-  geom_bar(stat = "identity") +
-  ylab("Average of Sepal to Petal length (cm)") +
-  labs(title = "Iris flower analysis")
+    ggplot(mapping = aes(x = Species, y = len_ratio, fill = Species)) +
+    geom_bar(stat = "identity") +
+    ylab("Average of Sepal to Petal length (cm)") +
+    labs(title = "Iris flower analysis")
 
 
 
 ## Getting started with Tidyverse: Readr and Dplyr Continued... ##
 
 # Set x axis to Survived and y to Fare
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   ggplot(mapping = aes(x = Survived, y = Fare)) 
 
 # Survived is being treated as a continuous variable...
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   select(Survived)
 
 # Make it discrete with factor()
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   ggplot(mapping = aes(x = factor(Survived), y = Fare)) 
 
 # Set factor labels to improve readability
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) 
 
 # Add boxplot geometry layer
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
   geom_boxplot() 
 
 # Log scale for y-axis
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   filter(Fare > 0) %>%
   ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
   geom_boxplot() +
   scale_y_log10()
 
 # Bracket passenger age into "Senior", "Adult" and "Child" groups
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  
+tidy_titanic %>% 
   filter(is.numeric(Age) & Fare > 0) %>%
   mutate(Age_bracket = case_when(
     Age > 60 ~ "Senior",
@@ -331,82 +337,83 @@ read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d95
   ))
 
 # Use facets to split the plot based on these brackets 
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   filter(is.numeric(Age) & Fare > 0) %>%
   mutate(Age_bracket = case_when(
     Age > 60 ~ "Senior",
     Age < 16 ~ "Child",
     TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
   )) %>%
-  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
-  geom_boxplot() +
-  scale_y_log10() +
-  facet_wrap(~ Age_bracket) 
+    ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    facet_wrap(~ Age_bracket) +
+    xlab(NULL)
 
 # Load ggpubr
 library(ggpubr)
 
 # Add a t-test to our plot
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   filter(is.numeric(Age) & Fare > 0) %>%
   mutate(Age_bracket = case_when(
     Age > 60 ~ "Senior",
     Age < 16 ~ "Child",
     TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
   )) %>%
-  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
-  geom_boxplot() +
-  scale_y_log10() +
-  facet_wrap(~ Age_bracket) +
-  stat_compare_means(method = "t.test")
+    ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    facet_wrap(~ Age_bracket) +
+    stat_compare_means(method = "t.test")
 
 
 # Make the label more reader-friendly 
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   filter(is.numeric(Age) & Fare > 0) %>%
   mutate(Age_bracket = case_when(
     Age > 60 ~ "Senior",
     Age < 16 ~ "Child",
     TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
   )) %>%
-  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
-  geom_boxplot() +
-  scale_y_log10() +
-  facet_wrap(~ Age_bracket) +
-  stat_compare_means(method = "t.test", label = "p.signif")
+    ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    facet_wrap(~ Age_bracket) +
+    stat_compare_means(method = "t.test", label = "p.signif")
 
 # User "comparisons" to improve the readability even more
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   filter(is.numeric(Age) & Fare > 0) %>%
   mutate(Age_bracket = case_when(
     Age > 60 ~ "Senior",
     Age < 16 ~ "Child",
     TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
   )) %>%
-  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
-  geom_boxplot() +
-  scale_y_log10() +
-  facet_wrap(~ Age_bracket) +
-  stat_compare_means(method = "t.test", label = "p.signif", comparisons = list(c("Died", "Survived")))
+    ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    facet_wrap(~ Age_bracket) +
+    stat_compare_means(method = "t.test", label = "p.signif", comparisons = list(c("Died", "Survived")))
 
 
 # Improve the overall appearance
-read_csv("https://gist.githubusercontent.com/michhar/2dfd2de0d4f8727f873422c5d959fff5/raw/fa71405126017e6a37bea592440b4bee94bf7b9e/titanic.csv") %>%  # Read the data into a tibble
+tidy_titanic %>% 
   filter(is.numeric(Age) & Fare > 0) %>%
   mutate(Age_bracket = case_when(
     Age > 60 ~ "Senior",
     Age < 16 ~ "Child",
     TRUE ~ "Adult"  # This TRUE is equivalent to "else" in if...else
   )) %>%
-  ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare, fill =  factor(Survived, labels = c("Died", "Survived")))) +
-  geom_boxplot() +
-  scale_y_log10(limits = c(2, 1000)) +
-  facet_wrap(~ Age_bracket) +
-  stat_compare_means(method = "t.test", label = "p.signif", comparisons = list(c("Died", "Survived"))) +
-  xlab(NULL) +
-  ylab("Ticket Price (log scale)") +
-  theme_bw(base_size = 17) +
-  theme(legend.position = "none") +
-  scale_fill_manual(values = c("goldenrod", "skyblue")) +
-  ggsave(filename = "my_figure.png", height = 5, width = 11)
+    ggplot(mapping = aes(x = factor(Survived, labels = c("Died", "Survived")), y = Fare, fill =  factor(Survived, labels = c("Died", "Survived")))) +
+    geom_boxplot() +
+    scale_y_log10(limits = c(2, 1000)) +
+    facet_wrap(~ Age_bracket) +
+    stat_compare_means(method = "t.test", label = "p.signif", comparisons = list(c("Died", "Survived"))) +
+    xlab(NULL) +
+    ylab("Ticket Price (log scale)") +
+    theme_bw(base_size = 17) +
+    theme(legend.position = "none") +
+    scale_fill_manual(values = c("goldenrod", "skyblue"))
+    ggsave(filename = "my_figure.png", height = 5, width = 11)
 
