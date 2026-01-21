@@ -10,22 +10,22 @@ View(iris)  # View it in RStudio
 
 # A. Complete the filter so that it only returns the "virginica" species
 iris %>%
-  filter(___)
+  filter(Species == "virginica")
 
 # B. Use summarise to get the mean sepal length for each species
 iris %>%
-  group_by(____) %>%
-  summarise(sepal_mean = mean(____))
+  group_by(Species) %>%
+  summarise(sepal_mean = mean(Sepal.Length))
 
 # C. Get the ratio of sepal length to sepal width for all samples
 iris %>%
-  _____(sepal_ratio = _____/Sepal.Width)
+  mutate(sepal_ratio = Sepal.Length/Sepal.Width)
 
 # D. Get the average ratio of petal length to petal width for each species
 iris %>%
-  _____(petal_ratio = _____/Petal.Width) %>%
-  _____(_____) %>%
-  ______(petal_ratio_avg = _____(petal_ratio))
+  mutate(petal_ratio = Petal.Length/Petal.Width) %>%
+  group_by(Species) %>%
+  summarise(petal_ratio_avg = mean(petal_ratio))
 
 ### ggplot problems ###
 
