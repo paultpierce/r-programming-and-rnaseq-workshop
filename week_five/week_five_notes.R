@@ -119,47 +119,47 @@ ggplot(qPCR_data, aes(x = factor(column), y = row, fill = treatment, label = `Sa
 # 1. Select "Sample Name", "primers", "treatment", and "Ct" columns
 # -- The new names of these columns should be "Sample", "Primer", "Treatment", and "Ct"
 qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-         Treatment = ______, Ct = _____)
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct")
 
 # 2. Remove all the rows with NA values in them
 qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-        ______ = ______, _____ = _____) %>%
-  ______()
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct") %>%
+  drop_na()
 
 # 3. Remove all the rows with "Undetermined" as the Ct value
 qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-        ______ = ______, _____ = _____) %>%
-  ______() %>%
-  _______(Ct != "Undetermined")
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct") %>%
+  drop_na() %>%
+  filter(Ct != "Undetermined")
 
 # 4. Remove all the rows with "NTC" as the Sample
 qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-        ______ = ______, _____ = _____) %>%
-  ______() %>%
-  _______(Ct != "Undetermined") %>%
-  ____________
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct") %>%
+  drop_na() %>%
+  filter(Ct != "Undetermined") %>%
+  filter(Sample != "NTC")
 
 # 5. Force Ct column to be a numeric value
 qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-        ______ = ______, _____ = _____) %>%
-  ______() %>%
-  _______(Ct != "Undetermined") %>%
-  ____________ %>%
-  _________("Ct",as.numeric) 
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct") %>%
+  drop_na() %>%
+  filter(Ct != "Undetermined") %>%
+  filter(Sample != "NTC") %>%
+  mutate_at("Ct", as.numeric)
 
 # 6. Assign your tidy data to a new tibble, "tidyPCR"
 tidyPCR <- qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-        ______ = ______, _____ = _____) %>%
-  ______() %>%
-  _______(Ct != "Undetermined") %>%
-  ____________ %>%
-  _________("Ct",as.numeric) 
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct") %>%
+  drop_na() %>%
+  filter(Ct != "Undetermined") %>%
+  filter(Sample != "NTC") %>%
+  mutate_at("Ct", as.numeric) 
 tidyPCR
 
 # 7. Glimpse tidyPCR
