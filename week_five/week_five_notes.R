@@ -181,7 +181,7 @@ HKgene <- tidyres %>%
 
 # Calculate ΔCt and expression 
 dCt <- tidyres %>%
-  filter(Primer != "GAPDH")%>%
+  filter(Primer != "GAPDH") %>%
   left_join(HKgene, by = "Sample") %>%
   mutate(dCt = Ct - HKg)
 
