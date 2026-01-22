@@ -79,18 +79,18 @@ qPCR_data <- qPCR_data %>%
 # Take a peak at the plate using ggplot2
 ggplot(qPCR_data, aes(x = factor(column), y = row, 
                       fill = primers, label = `Sample Name`)) +
-  geom_tile(colour = "black") +
+  geom_tile(color = "black") +
   geom_text()
 
 # Add a title: "My qPCR plate"
 ggplot(qPCR_data, aes(x = factor(column), y = row, fill = primers, label = `Sample Name`)) +
-  geom_tile(colour = "black") +
+  geom_tile(color = "black") +
   geom_text() + 
   labs(title = "My qPCR plate")
 
 # Change the x axis title to "Column" and y axis title to "Row"
 ggplot(qPCR_data, aes(x = factor(column), y = row, fill = primers, label = `Sample Name`)) +
-  geom_tile(colour = "black") +
+  geom_tile(color = "black") +
   geom_text() + 
   labs(title = "My qPCR plate") + 
   ylab("Row") + 
@@ -98,7 +98,7 @@ ggplot(qPCR_data, aes(x = factor(column), y = row, fill = primers, label = `Samp
 
 # Change the theme to theme_bw
 ggplot(qPCR_data, aes(x = factor(column), y = row, fill = primers, label = `Sample Name`)) +
-  geom_tile(colour = "black") +
+  geom_tile(color = "black") +
   geom_text() + 
   labs(title = "My qPCR plate") + 
   ylab("Row") + 
@@ -107,7 +107,7 @@ ggplot(qPCR_data, aes(x = factor(column), y = row, fill = primers, label = `Samp
 
 # Color by "treatment" instead of "primers"
 ggplot(qPCR_data, aes(x = factor(column), y = row, fill = treatment, label = `Sample Name`)) +
-  geom_tile(colour = "black") +
+  geom_tile(color = "black") +
   geom_text() + 
   labs(title = "My qPCR plate") + 
   ylab("Row") + 
@@ -120,7 +120,7 @@ ggplot(qPCR_data, aes(x = factor(column), y = row, fill = treatment, label = `Sa
 # -- The new names of these columns should be "Sample", "Primer", "Treatment", and "Ct"
 qPCR_data %>%
   _____(Sample = `Sample Name`, Primer = ______,
-         ______ = ______, _____ = _____)
+         Treatment = ______, Ct = _____)
 
 # 2. Remove all the rows with NA values in them
 qPCR_data %>%
