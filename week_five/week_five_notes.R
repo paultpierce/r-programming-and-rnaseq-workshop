@@ -11,9 +11,9 @@ library(tidyverse)
 #####Step 2: read in files############################################
 
 #for tab delineated use:
-res <- read_delim( "06202020.txt", "\t", 
+res <- read_delim(file = "06202020.txt", delim = "\t", 
                    escape_double = FALSE,
-                   trim_ws = TRUE, skip = 9  )
+                   trim_ws = TRUE, skip = 10)
 
 
 # #for excel use:
@@ -38,12 +38,12 @@ tidyres <- res %>%
   drop_na() %>%
   #keeps rows that do not have Detector Name in Primer column
   #and Ct in the Ct column
-  filter(Primer!="Detector Name", Ct!="Ct") %>%
-  filter(Ct!="Undetermined") %>%
+  filter(Primer != "Detector Name") %>%
+  filter(Ct != "Undetermined") %>%
   #when read in because column Ct had characters 'undetermined'
   #we need to change the data type to use arithmetic
   #instead of making a new column, we use mutate_at
-  mutate_at("Ct",as.numeric) 
+  mutate_at("Ct", as.numeric) 
 #glimpse allows us to see how the data is saved in the environment
 glimpse(tidyres)
 
