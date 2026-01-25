@@ -253,43 +253,43 @@ ddCtplot + scale_fill_viridis_d(option = "inferno")
 
 # Recap: Assign your tidy data to a new tibble, "tidyPCR"
 tidyPCR <- qPCR_data %>%
-  _____(Sample = `Sample Name`, Primer = ______,
-        ______ = ______, _____ = _____) %>%
-  ______() %>%
-  _______(Ct != "Undetermined") %>%
-  ____________ %>%
-  _________("Ct",as.numeric) 
+  select(Sample = "Sample Name", Primer = "primers",
+         Treatment = "treatment", Ct = "Ct") %>%
+  drop_na() %>%
+  filter(Ct != "Undetermined") %>%
+  filter(Sample != "NTC") %>%
+  mutate_at("Ct", as.numeric) 
 tidyPCR
 
 ## Calculate dCt on tidyPCR ##
 
 # Get the average CT for house keeping gene
 HKgene <- tidyPCR %>%
-  ________(Primer == "HK") %>%
-  group_by(__________) %>%
-  ________(______ = mean(Ct))
+  filter(Primer == "HK") %>%
+  group_by(Sample) %>%
+  summarise(HKg = mean(Ct))
 
 # Calculate ΔCt 
 dCt <- tidyPCR %>%
-  ______(Primer != "HK")%>%
-  ______(y = HKgene, by = "Sample") %>%
-  ______(dCt = Ct - HKg)
+  filter(Primer != "HK") %>%
+  left_join(y = HKgene, by = "Sample") %>%
+  mutate(dCt = Ct - HKg)
 
 # get expression averages and descriptive statistics
 # get the average of dCt
 avgdCt <- dCt %>% 
-  ____________ %>%
-  __________(avg_dCt = mean(dCt))
+  group_by(Sample, Treatment, Primer) %>%
+  summarise(avg_dCt = mean(dCt))
 
 calcRes <- dCt %>%
-  right_join(avgdCt, by= c("Sample", "Primer", "treatment")) %>%
-  __________________ %>%
-  ___________(sdev = sd(dCt))
+  right_join(avgdCt, by= c("Sample", "Primer", "Treatment")) %>%
+  group_by(Sample) %>%
+  mutate(sdev = sd(dCt))
 
 ## Plot the dCt results ##
 
-dCtplot <- _________(calcRes, aes(x = _____, y = ______, fill = Treatment)) + 
-  _______( position = "dodge") +
+dCtplot <- ggplot(calcRes, aes(x = Sample, y = avg_dCt, fill = Treatment)) + 
+  geom_col(position = "dodge") +
   geom_errorbar(aes(ymin=avg_dCt-sdev, 
                     ymax=avg_dCt+sdev), 
                 width=.2,
@@ -301,42 +301,39 @@ dCtplot
 
 # lets get the averages of each sample's house keeping gene dCt (primer control)
 CTRdCt <- calcRes %>%
-  ________(Treatment == "Control") %>%
+  filter(Treatment == "Control") %>%
   pull(dCt) %>%
   mean()
 
 
 # Calculate ddCt 
 ddCt <- calcRes %>%
-  ________(Treatment != "Control")%>%
-  _________(ddCt = dCt - CTRdCt) 
+  filter(Treatment != "Control") %>%
+  mutate(ddCt = dCt - CTRdCt) 
 
 
 # get ddCt averages and descriptive statistics
 avgddCt <- ddCt %>% 
-  _________(Sample) %>%
-  __________(avg_ddCt = ________(_______))
+  group_by(Sample) %>%
+  summarise(avg_ddCt = mean(ddCt))
 
 calcRes_ddCt <- ddCt %>%
-  __________(avgddCt, by= c("Sample")) %>%
-  ________(________) %>%
-  ________(sdev = sd(________))
+  right_join(avgddCt, by= c("Sample")) %>%
+  group_by(Sample) %>%
+  mutate(sdev_dd = sd(ddCt))
 
 
 ## Plot the ddCt ##
-
+ddCtplot <- ggplot(calcRes_ddCt, aes(x = Sample, y = avg_ddCt, fill = Treatment)) + 
+  geom_col(position = "dodge") +
+  geom_errorbar(aes(ymin=avg_ddCt-sdev, 
+                    ymax=avg_ddCt+sdev), 
+                width=.2,
+                position=position_dodge(.9)) +
+  scale_fill_viridis_d(option = "inferno")
+ddCtplot
 
 
 
 ###################################################################
 ###################################################################
-
-
-
-
-
-
-
-
-
-
