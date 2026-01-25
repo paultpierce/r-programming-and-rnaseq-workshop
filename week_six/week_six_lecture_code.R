@@ -6,18 +6,21 @@
 #' 
 
 # packages you may need to install for this lecture.
-#BiocManager::install( "phantasus" )
-#BiocManager::install("EnhancedVolcano")
-#BiocManager::install( "DESeq2" )
-#BiocManager::install("airway")
-#BiocManager::install("EnhancedVolcano")
-#BiocManager::install("VennDiagram")
+
+install.packages("BiocManager")
+
+BiocManager::install("phantasus")
+BiocManager::install("EnhancedVolcano")
+BiocManager::install("DESeq2")
+BiocManager::install("airway")
+BiocManager::install("EnhancedVolcano")
+BiocManager::install("VennDiagram")
 
 # if you have not installed following packages in earlier lectures
-#BiocManager::install( "org.Hs.eg.db" )
-#BiocManager::install( "AnnotationDbi" )
-#BiocManager::install( "dplyr" )
-#install.packages("plotly")
+BiocManager::install("org.Hs.eg.db")
+BiocManager::install("AnnotationDbi")
+BiocManager::install("dplyr")
+install.packages("plotly")
 
 #' ***
 #' ## Example 1: Interactive gene expression data analysis. 
@@ -38,11 +41,13 @@
 # First example R phantasus for interactive data analysis 
 # If need to install, uncomment the next line. 
 #BiocManager::install( "phantasus" )
-suppressMessages( library( phantasus ) )
+library(phantasus)
 
 # start the server during demo.
-#servePhantasus()
 
+
+# phantasus::setupPhantasus()
+# servePhantasus()
 
 
 
@@ -50,24 +55,24 @@ suppressMessages( library( phantasus ) )
 #' ## Example 2a: Using airway AND DESeq2.
 #' Using DESeq for differential gene expression analysis.
 # Third example: airway & DESeq.
-suppressMessages( library( airway ) )
-suppressMessages( library("DESeq2") )
-suppressMessages( library("ggplot2") )
+library(airway)
+library("DESeq2")
+library("ggplot2")
 
 # load data. 
-data( "airway" )
+data("airway")
 se <- airway
 
 # We set up differentially expressed gene selection criterion here. 
-pThr        <- 0.01   # for adj. p-value threshold (<= 0.01)
-logFCThr    <- 1      # for log2 fold-change (at least 2 fold)
+pThr <- 0.01   # for adj. p-value threshold (<= 0.01)
+logFCThr <- 1      # for log2 fold-change (at least 2 fold)
 baseMeanThr <- 20     # for average expression level (at least 20 counts).
-cpmThr      <- 1      # for copy-per-million (at least 1 cpm). 
+cpmThr <- 1      # for copy-per-million (at least 1 cpm). 
 
 # examine all data component
-head( assay( se ) )
-rowData( se )
-colData( se )
+head(assay(se))
+rowData(se)
+colData(se)
 
 # create DESeq data set, using paired design.
 dds <- DESeqDataSet(se, design = ~ cell + dex)
